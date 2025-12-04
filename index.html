@@ -516,7 +516,7 @@
             return div.innerHTML;
         }
 
-        // --- Fetch Logic (FIXED) ---
+        // --- Fetch Logic (FIXED - REMOVED PROXIES) ---
         async function fetchWithFallback(targetUrl) {
             const strategies = [
                 { name: "Direct", fn: async () => { 
@@ -531,11 +531,7 @@
                         clearTimeout(id);
                         throw e;
                     }
-                }},
-                // Proxies to bypass Mixed Content / CORS
-                { name: "CorsProxy.io", fn: async () => fetch(`https://corsproxy.io/?` + encodeURIComponent(targetUrl)) },
-                { name: "AllOrigins", fn: async () => fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`) },
-                { name: "CodeTabs", fn: async () => fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`) }
+                }}
             ];
 
             for (const strategy of strategies) {
@@ -547,7 +543,7 @@
                     // console.warn(`${strategy.name} failed.`, e); 
                 }
             }
-            throw new Error("Unable to connect to server. If you are on HTTPS, ensure Mixed Content is allowed or use the Proxies automatically.");
+            throw new Error("Unable to connect to server. If you are on HTTPS, ensure Mixed Content is allowed.");
         }
 
         async function sendMessage() {
@@ -580,7 +576,7 @@
                 console.error("Error:", error);
                 let errorMsg = `**Connection Failed**: ${error.message}.`;
                 if (window.location.protocol === 'https:' && apiBaseUrl.startsWith('http:')) {
-                    errorMsg += `\n\n*Note: Mixed Content blocking (HTTPS -> HTTP) detected. The proxies also failed to retrieve data.*`;
+                    errorMsg += `\n\n*Note: Mixed Content blocking (HTTPS -> HTTP) detected. Please run this file locally or on an HTTP server.*`;
                 }
                 appendMessageToUI('ai', errorMsg);
             } finally {
