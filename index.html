@@ -512,16 +512,23 @@
             return div.innerHTML;
         }
 
-        // --- Fetch Logic ---
+        // --- Fetch Logic (FIXED) ---
         async function fetchWithFallback(targetUrl) {
             const strategies = [
                 { name: "Direct", fn: async () => { 
                     const controller = new AbortController();
-                    const id = setTimeout(() => controller.abort(), 2000);
-                    const res = await fetch(targetUrl, { signal: controller.signal });
-                    clearTimeout(id);
-                    return res; 
+                    // FIX: Increased timeout from 2000ms to 120000ms (2 minutes)
+                    const id = setTimeout(() => controller.abort(), 120000000);
+                    try {
+                        const res = await fetch(targetUrl, { signal: controller.signal });
+                        clearTimeout(id);
+                        return res; 
+                    } catch(e) {
+                        clearTimeout(id);
+                        throw e;
+                    }
                 }},
+                // Proxies to bypass Mixed Content / CORS
                 { name: "CorsProxy.io", fn: async () => fetch(`https://corsproxy.io/?` + encodeURIComponent(targetUrl)) },
                 { name: "AllOrigins", fn: async () => fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`) },
                 { name: "CodeTabs", fn: async () => fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`) }
@@ -529,11 +536,14 @@
 
             for (const strategy of strategies) {
                 try {
+                    // console.log(`Trying strategy: ${strategy.name}`); // Debug
                     const res = await strategy.fn();
                     if (res.ok) return res;
-                } catch (e) { console.warn(`${strategy.name} failed.`); }
+                } catch (e) { 
+                    // console.warn(`${strategy.name} failed.`, e); 
+                }
             }
-            throw new Error("Unable to connect to server.");
+            throw new Error("Unable to connect to server. If you are on HTTPS, ensure Mixed Content is allowed or use the Proxies automatically.");
         }
 
         async function sendMessage() {
@@ -551,6 +561,7 @@
             document.getElementById('sendBtn').disabled = true;
 
             try {
+                // Encode properly for GET request
                 const targetUrl = `${apiBaseUrl}?prompt=${encodeURIComponent(prompt)}&model=${currentModel}`;
                 const response = await fetchWithFallback(targetUrl);
                 const data = await response.json();
@@ -565,7 +576,7 @@
                 console.error("Error:", error);
                 let errorMsg = `**Connection Failed**: ${error.message}.`;
                 if (window.location.protocol === 'https:' && apiBaseUrl.startsWith('http:')) {
-                    errorMsg += `\n\n*Note: Mixed Content blocking (HTTPS -> HTTP) detected. Please run this file locally.*`;
+                    errorMsg += `\n\n*Note: Mixed Content blocking (HTTPS -> HTTP) detected. The proxies also failed to retrieve data.*`;
                 }
                 appendMessageToUI('ai', errorMsg);
             } finally {
