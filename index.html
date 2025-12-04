@@ -3,287 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaikh's AI - Enhanced</title>
-    <!-- Tailwind CSS -->
+    <title>Shaikh's AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Marked.js for Markdown parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        dark: {
-                            900: '#05080f',
-                            800: '#0b0f19',
-                            700: '#111827',
-                            600: '#1f2937',
-                            500: '#374151',
-                        },
-                        brand: {
-                            500: '#6366f1', // Indigo
-                            600: '#4f46e5',
-                        }
-                    },
-                    animation: {
-                        'slide-in': 'slideIn 0.3s ease-out forwards',
-                        'fade-in': 'fadeIn 0.3s ease-out forwards',
-                    },
-                    keyframes: {
-                        slideIn: {
-                            '0%': { transform: 'translateX(-100%)' },
-                            '100%': { transform: 'translateX(0)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
         
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0b0f19;
-            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background-color: #09090b; /* Zinc 950 */
+            color: #e4e4e7; /* Zinc 200 */
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46; 
+        }
 
-        /* Markdown Styles */
-        .prose p { margin-bottom: 1em; line-height: 1.7; }
+        /* Markdown Styles within Chat */
+        .prose {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .prose p { margin-bottom: 0.75em; }
         .prose pre { 
-            background: #111827; 
-            padding: 1.25rem; 
-            border-radius: 0.75rem; 
+            background: #18181b; 
+            border: 1px solid #27272a;
+            padding: 1rem; 
+            border-radius: 0.5rem; 
             overflow-x: auto; 
-            margin: 1.5rem 0; 
-            border: 1px solid #1f2937;
+            margin: 1rem 0; 
         }
         .prose code { 
-            font-family: 'Menlo', 'Monaco', 'Courier New', monospace; 
-            background: #1f2937; 
-            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace; 
+            background: #27272a; 
             padding: 0.2rem 0.4rem; 
             border-radius: 0.25rem; 
-            font-size: 0.875rem; 
+            font-size: 0.85rem; 
+            color: #e4e4e7;
         }
-        .prose pre code { background: transparent; padding: 0; color: #e2e8f0; border: none; }
-        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
-        .prose h1, .prose h2, .prose h3 { font-weight: 700; color: #f8fafc; margin-top: 2rem; margin-bottom: 0.75rem; }
-        .prose a { color: #818cf8; text-decoration: underline; text-underline-offset: 2px; }
+        .prose pre code { background: transparent; padding: 0; color: #e4e4e7; border: none; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #d4d4d8; }
+        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; color: #d4d4d8; }
+        .prose h1, .prose h2, .prose h3 { font-weight: 600; color: #fafafa; margin-top: 1.5rem; margin-bottom: 0.75rem; }
         .prose strong { color: #fff; font-weight: 600; }
+        .prose a { color: #818cf8; text-decoration: underline; }
 
         /* Thought Process Styling */
         details.think-block {
-            background: rgba(30, 41, 59, 0.4);
+            background: #18181b;
             border-left: 3px solid #6366f1;
             padding: 0.75rem 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 0.5rem 0.5rem 0;
+            margin-bottom: 1.25rem;
+            border-radius: 0.375rem;
             font-size: 0.9rem;
-            color: #94a3b8;
+            color: #a1a1aa;
         }
         details.think-block summary {
             cursor: pointer;
             font-weight: 500;
             color: #818cf8;
+            user-select: none;
             outline: none;
-            list-style: none; /* Hide default triangle */
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
-        details.think-block summary::before {
-            content: '\f0eb'; /* FontAwesome bulb */
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
+        details.think-block[open] summary {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #27272a;
+            padding-bottom: 0.5rem;
         }
-        details.think-block[open] summary { margin-bottom: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.5rem; }
 
         /* Animations */
-        .typing-dot { animation: typing 1.4s infinite ease-in-out both; }
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
         
         @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Sidebar Transition */
+        .sidebar-transition {
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Mobile Overlay */
+        .mobile-overlay {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(2px);
         }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-sm md:text-base">
+<body class="flex h-screen overflow-hidden selection:bg-indigo-500/30">
 
-    <!-- Mobile Overlay -->
-    <div id="mobileOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+    <div id="mobileOverlay" onclick="toggleSidebar()" class="fixed inset-0 z-20 mobile-overlay hidden md:hidden opacity-0 transition-opacity duration-300"></div>
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-dark-900 border-r border-gray-800 flex flex-col z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:relative shadow-2xl md:shadow-none">
-        <!-- Sidebar Header -->
-        <div class="p-4 flex items-center justify-between">
-            <h2 class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
-                <i class="fa-solid fa-layer-group text-indigo-500"></i> History
-            </h2>
-            <!-- Close Button (Mobile Only) -->
-            <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800 transition-colors">
-                <i class="fa-solid fa-xmark text-xl"></i>
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-30 w-72 bg-[#0c0c0e] border-r border-white/5 flex flex-col transform -translate-x-full md:translate-x-0 sidebar-transition h-full shadow-2xl md:shadow-none">
+        <div class="p-4 flex items-center justify-between border-b border-white/5">
+            <span class="text-sm font-semibold text-gray-400 uppercase tracking-wider pl-2">History</span>
+            <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <button onclick="toggleSidebar()" class="hidden md:block text-gray-500 hover:text-white p-1.5 rounded-md hover:bg-white/5 transition-colors" title="Close Sidebar">
+                <i class="fa-solid fa-angles-left"></i>
             </button>
         </div>
 
-        <!-- New Chat Button -->
-        <div class="px-4 pb-4">
-            <button onclick="startNewChat()" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl transition-all shadow-lg shadow-indigo-500/20 font-medium active:scale-95">
-                <i class="fa-solid fa-plus"></i> <span>New Chat</span>
+        <div class="p-4 pb-2">
+            <button onclick="startNewChat()" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 text-white rounded-xl transition-all border border-white/5 hover:border-indigo-500/50 group">
+                <i class="fa-solid fa-plus text-indigo-400 group-hover:text-indigo-300"></i>
+                <span class="font-medium text-sm">New Chat</span>
             </button>
         </div>
 
-        <!-- Search -->
-        <div class="px-4 pb-2">
+        <div class="px-4 py-2">
             <div class="relative group">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-500 group-focus-within:text-indigo-400 transition-colors"></i>
-                <input type="text" id="historySearch" onkeyup="filterHistory()" placeholder="Search conversations..." class="w-full bg-dark-700 text-sm text-gray-300 rounded-lg py-2.5 pl-9 pr-3 border border-transparent focus:border-indigo-500/50 focus:bg-dark-600 focus:outline-none transition-all placeholder-gray-600">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-600 group-focus-within:text-indigo-400 transition-colors text-xs"></i>
+                <input type="text" id="searchInput" onkeyup="filterHistory()" placeholder="Search chats..." class="w-full bg-[#18181b] text-sm text-gray-300 rounded-lg py-2 pl-9 pr-3 border border-transparent focus:border-indigo-500/50 focus:bg-[#18181b] focus:outline-none transition-all placeholder-gray-600">
             </div>
         </div>
 
-        <!-- History List -->
-        <div id="historyList" class="flex-1 overflow-y-auto px-2 space-y-1 py-2">
-            <!-- Dynamic Content populated via JS -->
-            <div class="text-center text-gray-600 mt-10 text-sm italic">No history yet</div>
-        </div>
+        <div id="historyList" class="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
+            </div>
 
-        <!-- User Profile -->
-        <div class="p-4 border-t border-gray-800 bg-dark-900">
-            <button class="flex items-center gap-3 w-full px-2 py-2 rounded-lg hover:bg-dark-700 transition-colors group">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white shadow-inner">
+        <div class="p-4 border-t border-white/5 bg-[#0c0c0e]">
+            <div class="flex items-center gap-3 w-full px-2 py-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-indigo-900/20">
                     SA
                 </div>
-                <div class="flex-1 text-left">
-                    <div class="text-sm font-medium text-gray-200 group-hover:text-white">User Account</div>
-                    <div class="text-xs text-gray-500">Pro Plan</div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-sm font-medium text-gray-200 truncate">User Account</div>
+                    <div class="text-xs text-gray-500 truncate">Pro Plan Active</div>
                 </div>
-                <i class="fa-solid fa-gear text-gray-600 group-hover:text-gray-400"></i>
-            </button>
+                <button onclick="clearAllHistory()" class="text-gray-500 hover:text-red-400 p-1.5" title="Clear All History">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </div>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col relative bg-dark-800 w-full">
+    <main class="flex-1 flex flex-col relative bg-[#09090b] w-full min-w-0">
         
-        <!-- Header -->
-        <header class="h-16 border-b border-gray-800/60 flex items-center justify-between px-4 md:px-6 bg-dark-800/80 backdrop-blur-md z-30 absolute top-0 w-full">
+        <header class="h-16 border-b border-white/5 flex items-center justify-between px-4 md:px-6 bg-[#09090b]/80 backdrop-blur-xl z-10 sticky top-0">
             <div class="flex items-center gap-4">
-                <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white p-1 rounded hover:bg-gray-800 transition-colors">
-                    <i class="fa-solid fa-bars text-xl"></i>
+                <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white p-2 -ml-2 rounded-lg hover:bg-white/5 transition-colors">
+                    <i class="fa-solid fa-bars-staggered text-lg"></i>
                 </button>
-                <div class="flex items-center gap-2">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 font-bold text-lg md:text-xl">Shaikh's AI</span>
-                </div>
-                <div class="h-6 w-px bg-gray-700/50 mx-1 hidden sm:block"></div>
                 
-                <!-- Model Selector -->
-                <div class="relative group">
-                    <button id="modelDropdownBtn" class="flex items-center gap-2 text-xs md:text-sm text-gray-300 hover:text-white bg-dark-700 hover:bg-dark-600 px-3 py-1.5 rounded-full transition-all border border-gray-700 hover:border-gray-600">
-                        <span id="currentModelDisplay" class="font-medium truncate max-w-[120px] md:max-w-none">claude-sonnet-4.5</span>
-                        <i class="fa-solid fa-chevron-down text-[10px] text-gray-500"></i>
-                    </button>
-                    
-                    <!-- Dropdown -->
-                    <div id="modelDropdown" class="absolute top-full left-0 mt-2 w-64 bg-dark-700 border border-gray-600/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-left ring-1 ring-black/20">
-                        <div class="p-1.5" id="modelListContainer">
-                            <!-- Models injected via JS -->
-                        </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-indigo-500/10 rounded-lg flex items-center justify-center border border-indigo-500/20">
+                        <i class="fa-solid fa-robot text-indigo-400"></i>
                     </div>
+                    <div>
+                        <h1 class="font-bold text-sm md:text-base text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-purple-300">Shaikh's AI</h1>
+                        <p class="text-[10px] text-gray-500 leading-none hidden sm:block">Advanced reasoning engine</p>
+                    </div>
+                </div>
+
+                <div class="h-6 w-px bg-white/10 mx-2 hidden sm:block"></div>
+                
+                <div class="relative group hidden sm:block">
+                    <button id="modelDropdownBtn" class="flex items-center gap-2 text-xs font-medium text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full transition-all border border-white/5">
+                        <span id="currentModelDisplay">claude-sonnet-4.5</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] opacity-50"></i>
+                    </button>
+                    <div id="modelDropdown" class="absolute top-full left-0 mt-2 w-56 bg-[#18181b] border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 p-1">
+                        </div>
                 </div>
             </div>
             
             <div class="flex items-center gap-2">
-                <button onclick="clearCurrentChat()" class="text-gray-400 hover:text-red-400 px-3 py-1.5 text-sm rounded-md hover:bg-red-500/10 transition-colors" title="Clear current messages">
-                    <i class="fa-regular fa-trash-can"></i>
+                <button class="text-gray-400 hover:text-indigo-400 p-2 rounded-lg hover:bg-indigo-500/10 transition-colors" title="Export Chat">
+                    <i class="fa-solid fa-download"></i>
+                </button>
+                <button class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-white/5 transition-colors md:hidden">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Chat Area -->
-        <div id="chatContainer" class="flex-1 overflow-y-auto px-4 md:px-8 pt-20 pb-4 scroll-smooth">
+        <div id="chatContainer" class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
             
-            <!-- Empty State -->
-            <div id="emptyState" class="min-h-[80vh] flex flex-col items-center justify-center text-center opacity-100 transition-opacity duration-300">
-                <div class="w-20 h-20 bg-dark-700/50 rounded-3xl flex items-center justify-center mb-8 shadow-2xl shadow-indigo-500/5 border border-gray-800">
+            <div id="emptyState" class="h-full flex flex-col items-center justify-center text-center pb-20 max-w-2xl mx-auto animate-fade-in">
+                <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 rounded-3xl flex items-center justify-center mb-8 border border-white/5 shadow-2xl shadow-indigo-900/20">
                     <i class="fa-solid fa-wand-magic-sparkles text-3xl text-indigo-400"></i>
                 </div>
-                <h1 class="text-2xl md:text-4xl font-bold text-white mb-4">How can I help you today?</h1>
-                <p class="text-gray-400 max-w-md mb-10 text-sm md:text-base">Experience advanced AI models. Select a model from the top left and start building, creating, or researching.</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">How can I help you today?</h2>
+                <p class="text-gray-500 mb-8 max-w-md">I'm ready to assist with coding, analysis, or creative writing. Select a model to begin.</p>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl px-2">
-                    <button onclick="setInput('Write a Python script to scrape a website')" class="p-5 rounded-2xl border border-gray-800 bg-dark-700/30 hover:bg-dark-700 hover:border-indigo-500/30 text-left transition-all group hover:-translate-y-1 hover:shadow-lg">
-                        <div class="text-indigo-400 mb-3 text-xl"><i class="fa-brands fa-python"></i></div>
-                        <div class="font-semibold text-gray-200 group-hover:text-indigo-300 mb-1">Python Scraper</div>
-                        <div class="text-xs text-gray-500">Write code to extract data efficiently</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                    <button onclick="setInput('Create a Python script for data analysis')" class="p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-indigo-500/30 text-left transition-all group">
+                        <div class="text-indigo-400 mb-2 group-hover:scale-110 transition-transform origin-left"><i class="fa-brands fa-python"></i></div>
+                        <div class="text-sm font-medium text-gray-200">Python Script</div>
+                        <div class="text-xs text-gray-500 mt-1">Data analysis template</div>
                     </button>
-                    <button onclick="setInput('Explain quantum computing like I am 5')" class="p-5 rounded-2xl border border-gray-800 bg-dark-700/30 hover:bg-dark-700 hover:border-purple-500/30 text-left transition-all group hover:-translate-y-1 hover:shadow-lg">
-                        <div class="text-purple-400 mb-3 text-xl"><i class="fa-solid fa-brain"></i></div>
-                        <div class="font-semibold text-gray-200 group-hover:text-purple-300 mb-1">Explain Concepts</div>
-                        <div class="text-xs text-gray-500">Simple breakdowns of complex topics</div>
+                    <button onclick="setInput('Explain how Neural Networks work')" class="p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-purple-500/30 text-left transition-all group">
+                        <div class="text-purple-400 mb-2 group-hover:scale-110 transition-transform origin-left"><i class="fa-solid fa-brain"></i></div>
+                        <div class="text-sm font-medium text-gray-200">Concept Explainer</div>
+                        <div class="text-xs text-gray-500 mt-1">Deep learning basics</div>
                     </button>
                 </div>
             </div>
 
-            <!-- Messages List -->
-            <div id="messagesList" class="max-w-3xl mx-auto space-y-8 pb-32"></div>
+            <div id="messagesList" class="max-w-3xl mx-auto space-y-8 pb-10"></div>
             
-            <!-- Loading Indicator -->
-            <div id="loadingIndicator" class="hidden max-w-3xl mx-auto mt-4 mb-32 pl-12">
-                <div class="inline-flex items-center gap-1 bg-dark-700 px-4 py-2 rounded-full border border-gray-600">
-                    <span class="text-xs text-gray-400 font-medium mr-2">AI is thinking</span>
-                    <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full typing-dot"></div>
-                    <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full typing-dot"></div>
-                    <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full typing-dot"></div>
+            <div id="loadingIndicator" class="hidden max-w-3xl mx-auto mt-4 pl-12 md:pl-0">
+                <div class="flex items-start gap-4">
+                    <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 mt-1 shadow-lg shadow-indigo-500/20">
+                        <i class="fa-solid fa-robot text-xs text-white"></i>
+                    </div>
+                    <div class="bg-[#18181b] rounded-2xl rounded-tl-none px-4 py-3 border border-white/5">
+                        <div class="flex items-center gap-1.5 h-5">
+                            <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full typing-dot"></div>
+                            <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full typing-dot"></div>
+                            <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full typing-dot"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            <div class="h-32"></div>
         </div>
 
-        <!-- Input Area (Fixed Bottom) -->
-        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark-800 via-dark-800 to-transparent pt-12 pb-6 px-4 md:px-8 z-20">
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#09090b] via-[#09090b] to-transparent pt-12 pb-6 px-4">
             <div class="max-w-3xl mx-auto relative">
-                <div class="bg-dark-700/80 backdrop-blur-xl border border-gray-600/50 rounded-2xl shadow-2xl flex flex-col transition-all focus-within:border-indigo-500/70 focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:bg-dark-700">
+                <div class="bg-[#18181b] border border-white/10 rounded-2xl shadow-2xl flex flex-col transition-all focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/20">
                     <textarea 
                         id="userPrompt" 
                         rows="1" 
                         placeholder="Message Shaikh's AI..." 
-                        class="w-full bg-transparent text-gray-200 placeholder-gray-500 px-5 py-4 focus:outline-none resize-none max-h-48 overflow-y-auto custom-scrollbar"
+                        class="w-full bg-transparent text-gray-200 placeholder-gray-500 px-5 py-4 focus:outline-none resize-none max-h-48 overflow-y-auto rounded-t-2xl custom-scrollbar"
                         oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"
                         onkeydown="handleEnter(event)"
                     ></textarea>
                     
-                    <div class="flex justify-between items-center px-3 pb-3">
+                    <div class="flex justify-between items-center px-3 pb-3 pt-1">
                         <div class="flex items-center gap-1">
-                            <button class="p-2 text-gray-400 hover:text-indigo-400 transition-colors rounded-lg hover:bg-gray-600/30" title="Attach file (Demo)">
+                            <button class="p-2 text-gray-500 hover:text-indigo-400 transition-colors rounded-lg hover:bg-white/5" title="Attach file">
                                 <i class="fa-solid fa-paperclip"></i>
                             </button>
-                            <button class="p-2 text-gray-400 hover:text-indigo-400 transition-colors rounded-lg hover:bg-gray-600/30" title="Voice input (Demo)">
+                            <button class="p-2 text-gray-500 hover:text-indigo-400 transition-colors rounded-lg hover:bg-white/5" title="Voice input">
                                 <i class="fa-solid fa-microphone"></i>
                             </button>
                         </div>
-                        <button onclick="sendMessage()" id="sendBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl px-5 py-2 text-sm font-semibold transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40">
-                            Send <i class="fa-solid fa-paper-plane text-xs"></i>
-                        </button>
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-gray-600 hidden sm:block">Return to send</span>
+                            <button onclick="sendMessage()" id="sendBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl px-4 py-2 text-sm font-medium transition-all shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="text-center mt-3">
-                    <p class="text-[11px] text-gray-500 font-medium">AI can make mistakes. Please verify important information.</p>
+                <div class="text-center mt-2">
+                    <p class="text-[10px] text-gray-600">AI can make mistakes. Please verify important information.</p>
                 </div>
             </div>
         </div>
@@ -296,69 +291,223 @@
             "claude-sonnet-4.5", "gpt-5", "grok-4", "gemini-2.5-pro", 
             "kyvex", "kyvex-labs-deep-research", "gemini-imagen-4"
         ];
-        
         let currentModel = AVAILABLE_MODELS[0];
         const apiBaseUrl = "http://64.227.155.90:9100/chat/get";
         
-        // Chat History Data Structure
-        // { id: timestamp, title: string, model: string, messages: [{role: 'user'|'ai', content: string}] }
-        let chatHistory = [];
-        let currentChatId = null;
+        // State for Chat History
+        let chatHistory = JSON.parse(localStorage.getItem('shaikhs_ai_chats')) || {};
+        let currentSessionId = null;
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             initModelDropdown();
-            loadHistoryFromStorage();
+            renderHistoryList();
+            startNewChat(); // Default start state
             
-            // Start a new chat session automatically if no history or just default
-            if (!currentChatId) {
-                startNewChat(false); // false = don't UI refresh yet
+            // Mobile sidebar check
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
             }
-            
-            document.getElementById('userPrompt').focus();
         });
 
-        // --- UI Logic: Sidebar & Layout ---
+        // --- Sidebar Logic ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobileOverlay');
-            
-            const isClosed = sidebar.classList.contains('-translate-x-full');
-            
-            if (isClosed) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
+            const isMobile = window.innerWidth < 768;
+
+            if (isMobile) {
+                // Mobile behavior: Slide in/out
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden', 'opacity-0');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('opacity-0');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
             } else {
-                sidebar.classList.add('-translate-x-full');
-                setTimeout(() => {
-                   if(sidebar.classList.contains('-translate-x-full')) overlay.classList.add('hidden'); 
-                }, 300); // Wait for animation
+                // Desktop behavior: Collapse width
+                // Note: We use negative margin or width toggle. 
+                // Simple implementation: Toggle translate for desktop too to act as a collapsible drawer
+                sidebar.classList.toggle('-translate-x-full');
+                sidebar.classList.toggle('w-0'); // Helper to remove layout space
+                sidebar.classList.toggle('w-72'); // Restore width
+                
+                // If we want the main content to expand, the flex-1 handles it, 
+                // but the sidebar needs to not take up space. 
+                // The current class setup on aside is fixed/static.
+                if (sidebar.classList.contains('-translate-x-full')) {
+                     sidebar.style.width = '0px';
+                     sidebar.style.padding = '0px';
+                     sidebar.style.overflow = 'hidden';
+                } else {
+                     sidebar.style.width = ''; // Reset to class width
+                     sidebar.style.padding = '';
+                     sidebar.style.overflow = '';
+                }
             }
         }
 
-        function initModelDropdown() {
-            const container = document.getElementById('modelListContainer');
-            const display = document.getElementById('currentModelDisplay');
-            
-            container.innerHTML = '';
-            
-            AVAILABLE_MODELS.forEach(model => {
-                const btn = document.createElement('button');
-                btn.className = `w-full text-left px-3 py-2 text-sm rounded-lg transition-colors flex items-center gap-2 mb-1 ${model === currentModel ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-gray-300 hover:bg-dark-600'}`;
-                btn.onclick = () => selectModel(model);
-                btn.innerHTML = `
-                    <i class="fa-solid fa-microchip text-xs ${model === currentModel ? 'text-indigo-400' : 'text-gray-500'}"></i>
-                    ${model}
-                `;
-                container.appendChild(btn);
-            });
+        // --- History & Persistence Logic ---
 
-            display.textContent = currentModel;
+        function generateId() {
+            return 'chat_' + Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
-        function selectModel(model) {
-            currentModel = model;
-            initModelDropdown();
+        function startNewChat() {
+            currentSessionId = generateId();
+            // Initialize empty session
+            chatHistory[currentSessionId] = {
+                title: 'New Chat',
+                timestamp: Date.now(),
+                messages: []
+            };
+            
+            // Clear UI
+            document.getElementById('messagesList').innerHTML = '';
+            toggleEmptyState(true);
+            document.getElementById('userPrompt').value = '';
+            document.getElementById('userPrompt').focus();
+            
+            // We don't save to localStorage until the first message is sent
+            // to avoid cluttering history with empty chats.
+            
+            // Update active state in sidebar
+            renderHistoryList();
+        }
+
+        function saveMessageToHistory(role, content) {
+            if (!chatHistory[currentSessionId]) {
+                chatHistory[currentSessionId] = {
+                    title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
+                    timestamp: Date.now(),
+                    messages: []
+                };
+            }
+
+            // Update title if it's the first user message and title is generic
+            if (role === 'user' && chatHistory[currentSessionId].messages.length === 0) {
+                chatHistory[currentSessionId].title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
+            }
+
+            chatHistory[currentSessionId].messages.push({ role, content, timestamp: Date.now() });
+            
+            // Save to LocalStorage
+            localStorage.setItem('shaikhs_ai_chats', JSON.stringify(chatHistory));
+            renderHistoryList();
+        }
+
+        function loadSession(id) {
+            if (!chatHistory[id]) return;
+            
+            currentSessionId = id;
+            const session = chatHistory[id];
+            
+            // Clear UI
+            document.getElementById('messagesList').innerHTML = '';
+            toggleEmptyState(false);
+            
+            // Re-render messages
+            session.messages.forEach(msg => {
+                appendMessageToUI(msg.role, msg.content, false); // false = don't save again
+            });
+
+            // On mobile, close sidebar after selection
+            if (window.innerWidth < 768) {
+                toggleSidebar();
+            }
+            renderHistoryList(); // Update active highlight
+        }
+
+        function clearAllHistory() {
+            if(confirm("Are you sure you want to delete all chat history?")) {
+                chatHistory = {};
+                localStorage.removeItem('shaikhs_ai_chats');
+                startNewChat();
+            }
+        }
+
+        function renderHistoryList() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            
+            // Sort by newest first
+            const sessions = Object.entries(chatHistory).sort(([,a], [,b]) => b.timestamp - a.timestamp);
+            
+            // Group by dates (Simple version: Today vs Older)
+            // For simplicity in this snippet, just a flat list
+            
+            if (sessions.length === 0) {
+                list.innerHTML = '<div class="text-xs text-gray-600 text-center py-4">No history yet</div>';
+                return;
+            }
+
+            sessions.forEach(([id, session]) => {
+                if (session.messages.length === 0 && id !== currentSessionId) return; // Skip empty old sessions
+
+                const btn = document.createElement('button');
+                const isActive = id === currentSessionId;
+                
+                btn.className = `w-full text-left px-3 py-3 rounded-xl mb-1 text-sm truncate transition-all flex items-center gap-3 group relative ${
+                    isActive ? 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20' : 'text-gray-400 hover:bg-white/5 hover:text-gray-200 border border-transparent'
+                }`;
+                
+                btn.onclick = () => loadSession(id);
+                
+                // Delete button for specific chat
+                const deleteBtn = `<span onclick="deleteSession('${id}', event)" class="absolute right-2 opacity-0 group-hover:opacity-100 p-1 hover:text-red-400 transition-opacity"><i class="fa-solid fa-xmark"></i></span>`;
+
+                btn.innerHTML = `
+                    <i class="fa-regular fa-message text-xs ${isActive ? 'text-indigo-400' : 'text-gray-600'}"></i>
+                    <span class="truncate pr-4">${escapeHtml(session.title || 'New Chat')}</span>
+                    ${deleteBtn}
+                `;
+                
+                list.appendChild(btn);
+            });
+        }
+        
+        function deleteSession(id, event) {
+            event.stopPropagation(); // Prevent loading the session
+            delete chatHistory[id];
+            localStorage.setItem('shaikhs_ai_chats', JSON.stringify(chatHistory));
+            
+            if (id === currentSessionId) {
+                startNewChat();
+            } else {
+                renderHistoryList();
+            }
+        }
+
+        function filterHistory() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const list = document.getElementById('historyList');
+            const buttons = list.getElementsByTagName('button');
+            
+            for (let btn of buttons) {
+                const text = btn.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    btn.style.display = "flex";
+                } else {
+                    btn.style.display = "none";
+                }
+            }
+        }
+
+
+        // --- UI Logic ---
+        function initModelDropdown() {
+            const container = document.getElementById('modelDropdown');
+            const display = document.getElementById('currentModelDisplay');
+            container.innerHTML = '';
+            AVAILABLE_MODELS.forEach(model => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-3 py-2 text-xs rounded-lg transition-colors flex items-center gap-2 ${model === currentModel ? 'bg-indigo-500/20 text-indigo-300' : 'text-gray-300 hover:bg-white/5'}`;
+                btn.onclick = () => { currentModel = model; display.textContent = model; initModelDropdown(); };
+                btn.innerHTML = `${model} ${model === currentModel ? '<i class="fa-solid fa-check ml-auto text-indigo-400"></i>' : ''}`;
+                container.appendChild(btn);
+            });
         }
 
         function setInput(text) {
@@ -378,198 +527,61 @@
 
         function toggleEmptyState(visible) {
             const el = document.getElementById('emptyState');
-            if (visible) {
-                el.classList.remove('hidden');
-                el.style.display = 'flex';
-            } else {
-                el.classList.add('hidden');
-                el.style.display = 'none';
-            }
+            el.style.display = visible ? 'flex' : 'none';
         }
 
-        // --- Core Logic: Chat History Management ---
+        // --- Message Handling ---
 
-        function loadHistoryFromStorage() {
-            const stored = localStorage.getItem('shaikhs_ai_history');
-            if (stored) {
-                chatHistory = JSON.parse(stored);
-                renderHistorySidebar();
-            }
-        }
-
-        function saveHistoryToStorage() {
-            localStorage.setItem('shaikhs_ai_history', JSON.stringify(chatHistory));
-            renderHistorySidebar();
-        }
-
-        function startNewChat(render = true) {
-            currentChatId = Date.now();
-            // Create empty session but don't add to list until first message
-            if (render) {
-                document.getElementById('messagesList').innerHTML = '';
-                toggleEmptyState(true);
-                // On mobile, close sidebar after selecting new chat
-                if (window.innerWidth < 768) toggleSidebar();
-                document.getElementById('userPrompt').focus();
-            }
-        }
-
-        function getCurrentChat() {
-            return chatHistory.find(c => c.id === currentChatId);
-        }
-
-        function addToCurrentChat(role, content) {
-            let chat = getCurrentChat();
-            
-            // If this is the first message of a new session
-            if (!chat) {
-                chat = {
-                    id: currentChatId,
-                    title: content.length > 30 ? content.substring(0, 30) + '...' : content,
-                    timestamp: Date.now(),
-                    model: currentModel,
-                    messages: []
-                };
-                chatHistory.unshift(chat); // Add to top
-            }
-
-            chat.messages.push({ role, content, timestamp: Date.now() });
-            
-            // Update timestamp of chat to move it to top
-            chat.timestamp = Date.now();
-            chatHistory.sort((a, b) => b.timestamp - a.timestamp);
-            
-            saveHistoryToStorage();
-        }
-
-        function deleteChat(e, id) {
-            e.stopPropagation(); // Prevent loading the chat
-            if(confirm('Delete this conversation?')) {
-                chatHistory = chatHistory.filter(c => c.id !== id);
-                saveHistoryToStorage();
-                
-                if (currentChatId === id) {
-                    startNewChat();
-                }
-            }
-        }
-
-        function loadChat(id) {
-            currentChatId = id;
-            const chat = getCurrentChat();
-            if (!chat) return;
-
-            const list = document.getElementById('messagesList');
-            list.innerHTML = '';
-            toggleEmptyState(false);
-
-            chat.messages.forEach(msg => {
-                appendMessageToUI(msg.role, msg.content, false); // false = no animation for history load
-            });
-
-            // On mobile, close sidebar
-            if (window.innerWidth < 768) {
-                const sidebar = document.getElementById('sidebar');
-                if (!sidebar.classList.contains('-translate-x-full')) toggleSidebar();
-            }
-        }
-
-        function renderHistorySidebar() {
-            const list = document.getElementById('historyList');
-            const search = document.getElementById('historySearch').value.toLowerCase();
-            
-            list.innerHTML = '';
-
-            const filtered = chatHistory.filter(c => c.title.toLowerCase().includes(search));
-
-            if (filtered.length === 0) {
-                list.innerHTML = '<div class="text-center text-gray-600 mt-4 text-xs">No conversations found</div>';
-                return;
-            }
-
-            // Group by dates (simple version: just list them)
-            filtered.forEach(chat => {
-                const btn = document.createElement('div');
-                const isActive = chat.id === currentChatId;
-                
-                btn.className = `group w-full flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer transition-all mb-1 border border-transparent ${isActive ? 'bg-dark-700 border-gray-700' : 'hover:bg-dark-700/50 hover:border-gray-800'}`;
-                btn.onclick = () => loadChat(chat.id);
-                
-                btn.innerHTML = `
-                    <i class="fa-regular fa-message ${isActive ? 'text-indigo-400' : 'text-gray-500'}"></i>
-                    <div class="flex-1 overflow-hidden">
-                        <div class="text-sm font-medium truncate ${isActive ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}">${escapeHtml(chat.title)}</div>
-                        <div class="text-[10px] text-gray-600 truncate">${new Date(chat.timestamp).toLocaleDateString()}</div>
-                    </div>
-                    <button onclick="deleteChat(event, ${chat.id})" class="opacity-0 group-hover:opacity-100 text-gray-600 hover:text-red-400 p-1 transition-opacity">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                `;
-                list.appendChild(btn);
-            });
-        }
-
-        function filterHistory() {
-            renderHistorySidebar();
-        }
-
-        function clearCurrentChat() {
-            document.getElementById('messagesList').innerHTML = '';
-            toggleEmptyState(true);
-            // Technically keeps the ID, but visually clears. 
-            // Better UX: start brand new
-            startNewChat(); 
-        }
-
-        // --- Rendering Logic ---
-
-        function appendMessageToUI(role, content, animate = true) {
+        function appendMessageToUI(role, content, save = true) {
             toggleEmptyState(false);
             const messagesList = document.getElementById('messagesList');
             const msgDiv = document.createElement('div');
-            
             const isUser = role === 'user';
             
-            msgDiv.className = `flex gap-4 md:gap-6 ${isUser ? 'flex-row-reverse' : 'flex-row'} ${animate ? 'animate-fade-in' : ''}`;
+            msgDiv.className = `flex gap-4 md:gap-6 ${isUser ? 'flex-row-reverse' : 'flex-row'} animate-fade-in group`;
             
             const avatar = isUser 
-                ? `<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg text-white font-bold text-xs">YOU</div>`
-                : `<div class="w-10 h-10 rounded-xl bg-dark-700 flex items-center justify-center flex-shrink-0 border border-gray-700 shadow-lg"><i class="fa-solid fa-robot text-indigo-400 text-lg"></i></div>`;
+                ? `<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0 border border-gray-600 shadow-md"><i class="fa-solid fa-user text-xs text-gray-300"></i></div>`
+                : `<div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20"><i class="fa-solid fa-robot text-xs text-white"></i></div>`;
 
             let contentHtml = '';
             
             if (isUser) {
-                contentHtml = `
-                    <div class="max-w-[85%] md:max-w-[75%]">
-                        <div class="bg-indigo-600 text-white px-5 py-3.5 rounded-2xl rounded-tr-none shadow-md text-sm md:text-base leading-relaxed">
-                            ${escapeHtml(content)}
-                        </div>
-                    </div>`;
+                contentHtml = `<div class="bg-[#27272a] text-gray-100 px-5 py-3.5 rounded-3xl rounded-tr-none max-w-[90%] md:max-w-[80%] border border-white/5 shadow-sm leading-relaxed">${escapeHtml(content)}</div>`;
             } else {
                 const processedContent = processThinkingTags(content);
                 const markedContent = marked.parse(processedContent);
                 contentHtml = `
-                    <div class="max-w-full overflow-hidden w-full">
-                        <div class="prose prose-invert prose-sm md:prose-base max-w-none text-gray-300 leading-7">
+                    <div class="flex-1 min-w-0">
+                        <div class="prose prose-invert prose-sm max-w-none text-gray-300 leading-7">
                             ${markedContent}
                         </div>
-                    </div>`;
+                        <div class="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="text-gray-500 hover:text-gray-300 text-xs p-1" onclick="navigator.clipboard.writeText(this.parentElement.previousElementSibling.innerText)"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <button class="text-gray-500 hover:text-gray-300 text-xs p-1"><i class="fa-solid fa-arrows-rotate"></i> Regenerate</button>
+                        </div>
+                    </div>
+                `;
             }
 
             msgDiv.innerHTML = `${avatar}${contentHtml}`;
             messagesList.appendChild(msgDiv);
             
-            // Scroll logic
+            // Auto scroll
             const container = document.getElementById('chatContainer');
-            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
-        }
+            // Check if user is near bottom, if so scroll, else don't disturb reading
+            container.scrollTop = container.scrollHeight;
 
-        // --- Helpers ---
+            if (save) {
+                saveMessageToHistory(role, content);
+            }
+        }
 
         function processThinkingTags(text) {
             let processed = text.replace(/<think>([\s\S]*?)<\/think>/gi, (match, content) => {
                 return `<details class="think-block"><summary>Thought Process</summary>${content.trim()}</details>`;
             });
+            // Handle escaped variants if API returns them
             processed = processed.replace(/\\u003Cthink\\u003E([\s\S]*?)\\u003C\/think\\u003E/gi, (match, content) => {
                  return `<details class="think-block"><summary>Thought Process</summary>${content.trim()}</details>`;
             });
@@ -582,15 +594,15 @@
             return div.innerHTML;
         }
 
-        // --- Networking ---
+        // --- Fetch Logic (Same robust logic as before) ---
         async function fetchWithFallback(targetUrl) {
             const strategies = [
-                { name: "Direct", fn: async () => {
+                { name: "Direct", fn: async () => { 
                     const controller = new AbortController();
                     const id = setTimeout(() => controller.abort(), 2000);
                     const res = await fetch(targetUrl, { signal: controller.signal });
                     clearTimeout(id);
-                    return res;
+                    return res; 
                 }},
                 { name: "CorsProxy.io", fn: async () => fetch(`https://corsproxy.io/?` + encodeURIComponent(targetUrl)) },
                 { name: "AllOrigins", fn: async () => fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`) },
@@ -601,7 +613,7 @@
                 try {
                     const res = await strategy.fn();
                     if (res.ok) return res;
-                } catch (e) { console.warn(`${strategy.name} failed`); }
+                } catch (e) { console.warn(`${strategy.name} failed.`); }
             }
             throw new Error("Unable to connect to server.");
         }
@@ -609,49 +621,35 @@
         async function sendMessage() {
             const input = document.getElementById('userPrompt');
             const prompt = input.value.trim();
-            
             if (!prompt) return;
 
             input.value = '';
             input.style.height = 'auto';
 
-            // UI & Storage: Add User Message
             appendMessageToUI('user', prompt);
-            addToCurrentChat('user', prompt);
-
+            
             const loading = document.getElementById('loadingIndicator');
             loading.classList.remove('hidden');
             document.getElementById('sendBtn').disabled = true;
-
-            // Scroll to bottom
-            const container = document.getElementById('chatContainer');
-            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
 
             try {
                 const targetUrl = `${apiBaseUrl}?prompt=${encodeURIComponent(prompt)}&model=${currentModel}`;
                 const response = await fetchWithFallback(targetUrl);
                 const data = await response.json();
                 
-                const aiContent = (data && data.response) ? data.response : "_Error: Empty response_";
-                
-                appendMessageToUI('ai', aiContent);
-                addToCurrentChat('ai', aiContent);
+                if (data && data.response) {
+                    appendMessageToUI('ai', data.response);
+                } else {
+                    appendMessageToUI('ai', "_Error: Received empty response._");
+                }
 
             } catch (error) {
+                console.error("Error:", error);
                 let errorMsg = `**Connection Failed**: ${error.message}.`;
                 if (window.location.protocol === 'https:' && apiBaseUrl.startsWith('http:')) {
-                    errorMsg += `\n\n*Note: Mixed Content Block (HTTPS to HTTP). Please download and run locally.*`;
+                    errorMsg += `\n\n*Note: Mixed Content blocking (HTTPS -> HTTP) detected. Please run this file locally.*`;
                 }
                 appendMessageToUI('ai', errorMsg);
-                addToCurrentChat('ai', errorMsg);
-                
-                // Demo Fallback
-                setTimeout(() => {
-                    const demoMsg = "Since I can't reach the backend in this environment, I'm simulating a response.\n\nHere is a code example:\n```javascript\nconsole.log('Demo Mode');\n```";
-                    appendMessageToUI('ai', demoMsg);
-                    addToCurrentChat('ai', demoMsg);
-                }, 1000);
-
             } finally {
                 loading.classList.add('hidden');
                 document.getElementById('sendBtn').disabled = false;
