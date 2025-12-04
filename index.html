@@ -18,43 +18,16 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #27272a; 
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3f3f46; 
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
         /* Markdown Styles within Chat */
-        .prose {
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
+        .prose { font-size: 0.95rem; line-height: 1.7; }
         .prose p { margin-bottom: 0.75em; }
-        .prose pre { 
-            background: #18181b; 
-            border: 1px solid #27272a;
-            padding: 1rem; 
-            border-radius: 0.5rem; 
-            overflow-x: auto; 
-            margin: 1rem 0; 
-        }
-        .prose code { 
-            font-family: 'JetBrains Mono', monospace; 
-            background: #27272a; 
-            padding: 0.2rem 0.4rem; 
-            border-radius: 0.25rem; 
-            font-size: 0.85rem; 
-            color: #e4e4e7;
-        }
+        .prose pre { background: #18181b; border: 1px solid #27272a; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1rem 0; }
+        .prose code { font-family: 'JetBrains Mono', monospace; background: #27272a; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.85rem; color: #e4e4e7; }
         .prose pre code { background: transparent; padding: 0; color: #e4e4e7; border: none; }
         .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #d4d4d8; }
         .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; color: #d4d4d8; }
@@ -63,32 +36,12 @@
         .prose a { color: #818cf8; text-decoration: underline; }
 
         /* Thought Process Styling */
-        details.think-block {
-            background: #18181b;
-            border-left: 3px solid #6366f1;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1.25rem;
-            border-radius: 0.375rem;
-            font-size: 0.9rem;
-            color: #a1a1aa;
-        }
-        details.think-block summary {
-            cursor: pointer;
-            font-weight: 500;
-            color: #818cf8;
-            user-select: none;
-            outline: none;
-        }
-        details.think-block[open] summary {
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid #27272a;
-            padding-bottom: 0.5rem;
-        }
+        details.think-block { background: #18181b; border-left: 3px solid #6366f1; padding: 0.75rem 1rem; margin-bottom: 1.25rem; border-radius: 0.375rem; font-size: 0.9rem; color: #a1a1aa; }
+        details.think-block summary { cursor: pointer; font-weight: 500; color: #818cf8; user-select: none; outline: none; }
+        details.think-block[open] summary { margin-bottom: 0.5rem; border-bottom: 1px solid #27272a; padding-bottom: 0.5rem; }
 
         /* Animations */
-        .typing-dot {
-            animation: typing 1.4s infinite ease-in-out both;
-        }
+        .typing-dot { animation: typing 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
         
@@ -101,28 +54,25 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in {
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        .animate-fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         /* Sidebar Transition */
+        /* Fixed: Adjusted transition to handle width changes smoothly */
         .sidebar-transition {
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
         }
         
         /* Mobile Overlay */
-        .mobile-overlay {
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(2px);
-        }
+        .mobile-overlay { background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden selection:bg-indigo-500/30">
 
-    <div id="mobileOverlay" onclick="toggleSidebar()" class="fixed inset-0 z-20 mobile-overlay hidden md:hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobileOverlay" onclick="toggleSidebar()" class="fixed inset-0 z-20 mobile-overlay hidden opacity-0 transition-opacity duration-300 md:hidden"></div>
 
-    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-30 w-72 bg-[#0c0c0e] border-r border-white/5 flex flex-col transform -translate-x-full md:translate-x-0 sidebar-transition h-full shadow-2xl md:shadow-none">
-        <div class="p-4 flex items-center justify-between border-b border-white/5">
+    <aside id="sidebar" class="fixed md:relative inset-y-0 left-0 z-30 flex flex-col h-full bg-[#0c0c0e] border-r border-white/5 shadow-2xl md:shadow-none whitespace-nowrap overflow-hidden sidebar-transition w-72 transform -translate-x-full md:translate-x-0">
+        
+        <div class="p-4 flex items-center justify-between border-b border-white/5 min-h-[65px]">
             <span class="text-sm font-semibold text-gray-400 uppercase tracking-wider pl-2">History</span>
             <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white p-2">
                 <i class="fa-solid fa-xmark text-lg"></i>
@@ -151,7 +101,7 @@
 
         <div class="p-4 border-t border-white/5 bg-[#0c0c0e]">
             <div class="flex items-center gap-3 w-full px-2 py-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-indigo-900/20">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-indigo-900/20 flex-shrink-0">
                     SA
                 </div>
                 <div class="flex-1 min-w-0">
@@ -165,7 +115,7 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col relative bg-[#09090b] w-full min-w-0">
+    <main class="flex-1 flex flex-col relative bg-[#09090b] w-full min-w-0 transition-all duration-300">
         
         <header class="h-16 border-b border-white/5 flex items-center justify-between px-4 md:px-6 bg-[#09090b]/80 backdrop-blur-xl z-10 sticky top-0">
             <div class="flex items-center gap-4">
@@ -304,47 +254,49 @@
             renderHistoryList();
             startNewChat(); // Default start state
             
-            // Mobile sidebar check
+            // Check mobile on load
             if (window.innerWidth < 768) {
+                // Ensure correct mobile initial state
                 document.getElementById('sidebar').classList.add('-translate-x-full');
             }
         });
 
-        // --- Sidebar Logic ---
+        // --- FIXED SIDEBAR LOGIC ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobileOverlay');
             const isMobile = window.innerWidth < 768;
 
             if (isMobile) {
-                // Mobile behavior: Slide in/out
+                // Mobile: Toggle Translate and Overlay
                 if (sidebar.classList.contains('-translate-x-full')) {
+                    // Open
                     sidebar.classList.remove('-translate-x-full');
-                    overlay.classList.remove('hidden', 'opacity-0');
+                    overlay.classList.remove('hidden');
+                    // Small timeout to allow display:block to apply before opacity transition
+                    setTimeout(() => overlay.classList.remove('opacity-0'), 10);
                 } else {
+                    // Close
                     sidebar.classList.add('-translate-x-full');
                     overlay.classList.add('opacity-0');
                     setTimeout(() => overlay.classList.add('hidden'), 300);
                 }
             } else {
-                // Desktop behavior: Collapse width
-                // Note: We use negative margin or width toggle. 
-                // Simple implementation: Toggle translate for desktop too to act as a collapsible drawer
-                sidebar.classList.toggle('-translate-x-full');
-                sidebar.classList.toggle('w-0'); // Helper to remove layout space
-                sidebar.classList.toggle('w-72'); // Restore width
+                // Desktop: Toggle Width and Padding
+                // We use Tailwind classes instead of inline styles for smoother animation
                 
-                // If we want the main content to expand, the flex-1 handles it, 
-                // but the sidebar needs to not take up space. 
-                // The current class setup on aside is fixed/static.
-                if (sidebar.classList.contains('-translate-x-full')) {
-                     sidebar.style.width = '0px';
-                     sidebar.style.padding = '0px';
-                     sidebar.style.overflow = 'hidden';
+                if (sidebar.classList.contains('w-72')) {
+                    // Collapse
+                    sidebar.classList.remove('w-72');
+                    sidebar.classList.add('w-0');
+                    sidebar.classList.add('p-0'); // Remove padding
+                    sidebar.classList.add('border-none'); // Hide border
                 } else {
-                     sidebar.style.width = ''; // Reset to class width
-                     sidebar.style.padding = '';
-                     sidebar.style.overflow = '';
+                    // Expand
+                    sidebar.classList.remove('w-0');
+                    sidebar.classList.remove('p-0');
+                    sidebar.classList.remove('border-none');
+                    sidebar.classList.add('w-72');
                 }
             }
         }
@@ -357,23 +309,15 @@
 
         function startNewChat() {
             currentSessionId = generateId();
-            // Initialize empty session
             chatHistory[currentSessionId] = {
                 title: 'New Chat',
                 timestamp: Date.now(),
                 messages: []
             };
-            
-            // Clear UI
             document.getElementById('messagesList').innerHTML = '';
             toggleEmptyState(true);
             document.getElementById('userPrompt').value = '';
             document.getElementById('userPrompt').focus();
-            
-            // We don't save to localStorage until the first message is sent
-            // to avoid cluttering history with empty chats.
-            
-            // Update active state in sidebar
             renderHistoryList();
         }
 
@@ -385,39 +329,31 @@
                     messages: []
                 };
             }
-
-            // Update title if it's the first user message and title is generic
             if (role === 'user' && chatHistory[currentSessionId].messages.length === 0) {
                 chatHistory[currentSessionId].title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
             }
-
             chatHistory[currentSessionId].messages.push({ role, content, timestamp: Date.now() });
-            
-            // Save to LocalStorage
             localStorage.setItem('shaikhs_ai_chats', JSON.stringify(chatHistory));
             renderHistoryList();
         }
 
         function loadSession(id) {
             if (!chatHistory[id]) return;
-            
             currentSessionId = id;
             const session = chatHistory[id];
-            
-            // Clear UI
             document.getElementById('messagesList').innerHTML = '';
             toggleEmptyState(false);
-            
-            // Re-render messages
             session.messages.forEach(msg => {
-                appendMessageToUI(msg.role, msg.content, false); // false = don't save again
+                appendMessageToUI(msg.role, msg.content, false);
             });
-
-            // On mobile, close sidebar after selection
             if (window.innerWidth < 768) {
-                toggleSidebar();
+                // Close sidebar on mobile selection
+                const sidebar = document.getElementById('sidebar');
+                if (!sidebar.classList.contains('-translate-x-full')) {
+                    toggleSidebar();
+                }
             }
-            renderHistoryList(); // Update active highlight
+            renderHistoryList();
         }
 
         function clearAllHistory() {
@@ -431,12 +367,7 @@
         function renderHistoryList() {
             const list = document.getElementById('historyList');
             list.innerHTML = '';
-            
-            // Sort by newest first
             const sessions = Object.entries(chatHistory).sort(([,a], [,b]) => b.timestamp - a.timestamp);
-            
-            // Group by dates (Simple version: Today vs Older)
-            // For simplicity in this snippet, just a flat list
             
             if (sessions.length === 0) {
                 list.innerHTML = '<div class="text-xs text-gray-600 text-center py-4">No history yet</div>';
@@ -444,7 +375,7 @@
             }
 
             sessions.forEach(([id, session]) => {
-                if (session.messages.length === 0 && id !== currentSessionId) return; // Skip empty old sessions
+                if (session.messages.length === 0 && id !== currentSessionId) return;
 
                 const btn = document.createElement('button');
                 const isActive = id === currentSessionId;
@@ -454,8 +385,6 @@
                 }`;
                 
                 btn.onclick = () => loadSession(id);
-                
-                // Delete button for specific chat
                 const deleteBtn = `<span onclick="deleteSession('${id}', event)" class="absolute right-2 opacity-0 group-hover:opacity-100 p-1 hover:text-red-400 transition-opacity"><i class="fa-solid fa-xmark"></i></span>`;
 
                 btn.innerHTML = `
@@ -463,16 +392,14 @@
                     <span class="truncate pr-4">${escapeHtml(session.title || 'New Chat')}</span>
                     ${deleteBtn}
                 `;
-                
                 list.appendChild(btn);
             });
         }
         
         function deleteSession(id, event) {
-            event.stopPropagation(); // Prevent loading the session
+            event.stopPropagation();
             delete chatHistory[id];
             localStorage.setItem('shaikhs_ai_chats', JSON.stringify(chatHistory));
-            
             if (id === currentSessionId) {
                 startNewChat();
             } else {
@@ -484,14 +411,9 @@
             const query = document.getElementById('searchInput').value.toLowerCase();
             const list = document.getElementById('historyList');
             const buttons = list.getElementsByTagName('button');
-            
             for (let btn of buttons) {
                 const text = btn.textContent.toLowerCase();
-                if (text.includes(query)) {
-                    btn.style.display = "flex";
-                } else {
-                    btn.style.display = "none";
-                }
+                btn.style.display = text.includes(query) ? "flex" : "none";
             }
         }
 
@@ -566,10 +488,7 @@
 
             msgDiv.innerHTML = `${avatar}${contentHtml}`;
             messagesList.appendChild(msgDiv);
-            
-            // Auto scroll
             const container = document.getElementById('chatContainer');
-            // Check if user is near bottom, if so scroll, else don't disturb reading
             container.scrollTop = container.scrollHeight;
 
             if (save) {
@@ -581,7 +500,6 @@
             let processed = text.replace(/<think>([\s\S]*?)<\/think>/gi, (match, content) => {
                 return `<details class="think-block"><summary>Thought Process</summary>${content.trim()}</details>`;
             });
-            // Handle escaped variants if API returns them
             processed = processed.replace(/\\u003Cthink\\u003E([\s\S]*?)\\u003C\/think\\u003E/gi, (match, content) => {
                  return `<details class="think-block"><summary>Thought Process</summary>${content.trim()}</details>`;
             });
@@ -594,7 +512,7 @@
             return div.innerHTML;
         }
 
-        // --- Fetch Logic (Same robust logic as before) ---
+        // --- Fetch Logic ---
         async function fetchWithFallback(targetUrl) {
             const strategies = [
                 { name: "Direct", fn: async () => { 
